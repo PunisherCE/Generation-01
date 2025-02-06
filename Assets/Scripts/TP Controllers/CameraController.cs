@@ -3,9 +3,9 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public Transform target;
-    public float minYAngle = -60f;
-    public float maxYAngle = 60f;
 
+    private float minYAngle = -30f;
+    private float maxYAngle = 60f;
     private float distance = 8;
     private float sensitivity = 1000f;
     private float yaw = 0f;

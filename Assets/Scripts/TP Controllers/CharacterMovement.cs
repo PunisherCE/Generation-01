@@ -12,14 +12,17 @@ public class CharacterMovement : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
+    private Animator animator;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
+        HandleAnimations();
         isGrounded = controller.isGrounded;
         if (isGrounded && velocity.y < 0)
         {
@@ -40,6 +43,7 @@ public class CharacterMovement : MonoBehaviour
 
         if (direction.magnitude >= 0.1f)
         {
+            animator.SetBool("isWalking", true);
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
             float angle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, Time.deltaTime * rotationSpeed);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
@@ -49,7 +53,7 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
-            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+            animator.SetBool("isWalking", false);
         }
     }
 
@@ -65,5 +69,13 @@ public class CharacterMovement : MonoBehaviour
     {
         velocity.y -= gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    void HandleAnimations()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            animator.SetTrigger("attack");
+        }
     }
 }
