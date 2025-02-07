@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -14,10 +15,20 @@ public class CharacterMovement : MonoBehaviour
     private bool isGrounded;
     private Animator animator;
 
+    private PlayerInput playerInput;
+    private InputAction moveAction;
+    private InputAction jumpAction;
+    private InputAction attackAction;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+
+        playerInput = GetComponent<PlayerInput>();
+        moveAction = playerInput.actions["Move"];
+        jumpAction = playerInput.actions["Jump"];
+        attackAction = playerInput.actions["Attack"];
     }
 
     void Update()
@@ -36,8 +47,9 @@ public class CharacterMovement : MonoBehaviour
 
     void Move()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        Vector2 input = moveAction.ReadValue<Vector2>();
+        float horizontal = input.x;
+        float vertical = input.y;
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
@@ -59,7 +71,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (jumpAction.triggered && isGrounded)
         {
             velocity.y = jumpForce;
         }
@@ -73,7 +85,7 @@ public class CharacterMovement : MonoBehaviour
 
     void HandleAnimations()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (attackAction.triggered)
         {
             animator.SetTrigger("attack");
         }

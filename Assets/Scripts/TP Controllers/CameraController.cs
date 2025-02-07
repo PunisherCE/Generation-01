@@ -1,35 +1,49 @@
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     public Transform target;
+    public LayerMask collisionLayers;
 
     private float minYAngle = -30f;
     private float maxYAngle = 60f;
-    private float distance = 8;
-    private float sensitivity = 1000f;
+    private float distance = 8f;
+    private float sensitivity = 50f;
     private float yaw = 0f;
     private float pitch = 0f;
-    private float initialDistance;
-    private Vector3 initialOffset;
+    private Vector3 currentOffset;
+    private float minDistance = 3f; // Minimum distance to maintain from the player
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        initialDistance = distance; // Store initial distance from editor
-        initialOffset = transform.position - target.position; // Store initial vertical offset
+        currentOffset = new Vector3(0f, 2f, -distance); // Adjusted to provide better starting height
     }
 
     void LateUpdate()
     {
-        yaw += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-        pitch -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+        yaw += Mouse.current.delta.x.ReadValue() * sensitivity * Time.deltaTime;
+        pitch -= Mouse.current.delta.y.ReadValue() * sensitivity * Time.deltaTime;
         pitch = Mathf.Clamp(pitch, minYAngle, maxYAngle);
 
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);
-        Vector3 position = target.position + initialOffset.y * Vector3.up - rotation * Vector3.forward * initialDistance;
+        Vector3 desiredPosition = target.position + rotation * currentOffset;
 
-        transform.position = position;
+        Vector3 directionToCamera = (desiredPosition - target.position).normalized;
+        float desiredDistance = currentOffset.magnitude;
+
+        RaycastHit hit;
+        if (Physics.SphereCast(target.position, 0.5f, directionToCamera, out hit, desiredDistance, collisionLayers))
+        {
+            float adjustedDistance = Mathf.Max(hit.distance - 0.2f, minDistance);
+            transform.position = target.position + rotation * new Vector3(0f, 2f, -adjustedDistance);
+        }
+        else
+        {
+            transform.position = desiredPosition;
+        }
+
         transform.LookAt(target);
     }
 }
