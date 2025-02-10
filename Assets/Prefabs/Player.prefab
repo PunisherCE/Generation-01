@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5731151794575980815}
   - component: {fileID: 3560923630839827398}
   - component: {fileID: 9128392146834005456}
-  - component: {fileID: 8360067656839497408}
+  - component: {fileID: 535038261219269595}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -138,7 +138,7 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!114 &8360067656839497408
+--- !u!114 &535038261219269595
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6549369667429426227}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 072897c3404536f49821b8252a214da8, type: 3}
+  m_Script: {fileID: 11500000, guid: 4970e50691054464aabfd23c7234cf07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 144241939480775540}
@@ -264,13 +264,13 @@ PrefabInstance:
       addedObject: {fileID: 1555676116216364508}
     - targetCorrespondingSourceObject: {fileID: 100062, guid: f227b5017a7c0184a96c2c26f1e4408d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7533765333098521536}
+      addedObject: {fileID: 554435092284223152}
     - targetCorrespondingSourceObject: {fileID: 100062, guid: f227b5017a7c0184a96c2c26f1e4408d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 554435092284223152}
-    - targetCorrespondingSourceObject: {fileID: 100064, guid: f227b5017a7c0184a96c2c26f1e4408d, type: 3}
+      addedObject: {fileID: 572766598368496111}
+    - targetCorrespondingSourceObject: {fileID: 100062, guid: f227b5017a7c0184a96c2c26f1e4408d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5801844558807363051}
+      addedObject: {fileID: 6759458212079828072}
   m_SourcePrefab: {fileID: 100100000, guid: f227b5017a7c0184a96c2c26f1e4408d, type: 3}
 --- !u!1 &144241939480352532 stripped
 GameObject:
@@ -302,26 +302,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.3, z: 0}
---- !u!114 &7533765333098521536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 144241939480352532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb54bb57304fbef4da6696e98e246919, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 8
-  cameraTransform: {fileID: 4897914979377717144}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  gravity: 9.81
-  rotationSpeed: 15
 --- !u!114 &554435092284223152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,18 +332,33 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!1 &144241939480352554 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100064, guid: f227b5017a7c0184a96c2c26f1e4408d, type: 3}
-  m_PrefabInstance: {fileID: 144241939480383946}
+--- !u!114 &572766598368496111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &5801844558807363051
+  m_GameObject: {fileID: 144241939480352532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f81984320ea104b8b1b11adb28be63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  jumpForce: 8
+  cameraTransform: {fileID: 4897914979377717144}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  gravity: 9.81
+  rotationSpeed: 15
+--- !u!136 &6759458212079828072
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 144241939480352554}
+  m_GameObject: {fileID: 144241939480352532}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -376,10 +371,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.6
-  m_Height: 2.65
+  m_Radius: 0.5
+  m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0, y: 1.3, z: 0.3}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &144241939480775540 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400062, guid: f227b5017a7c0184a96c2c26f1e4408d, type: 3}
