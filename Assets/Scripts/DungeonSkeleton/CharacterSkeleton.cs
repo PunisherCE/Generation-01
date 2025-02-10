@@ -3,13 +3,14 @@ using UnityEngine.InputSystem;
 
 public class CharacterSkeleton : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float jumpForce = 8f;
     public Transform cameraTransform;
     public LayerMask groundLayer;
     public float gravity = 9.81f;
     public float rotationSpeed = 15f;
+    public SwordDamage sword;
 
+    private float moveSpeed = 8f;
+    private float jumpForce = 11f;
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
@@ -89,6 +90,15 @@ public class CharacterSkeleton : MonoBehaviour
         if (attackAction.triggered)
         {
             animator.SetTrigger("Attack1h1");
+            StartCoroutine(HandleSwordDamage());
         }
     }
+
+    System.Collections.IEnumerator HandleSwordDamage()
+    {
+        sword.EnableDamage();
+        yield return new WaitForSeconds(1f); // Wait for 1 second
+        sword.DisableDamage();
+    }
+
 }
