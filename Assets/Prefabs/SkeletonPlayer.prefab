@@ -365,8 +365,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81eb3710c4b5984999ff77971a0af5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 8
   cameraTransform: {fileID: 887290553545495497}
   groundLayer:
     serializedVersion: 2

@@ -10,15 +10,6 @@ public class EnemyFollow : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform; // Ensure your player is tagged as "Player"
         animator = GetComponent<Animator>();
-
-        if (animator.runtimeAnimatorController != null)
-        {
-            animator.SetBool("walk", true); // For Mecanim animations
-        }
-        else if (GetComponent<Animation>() != null)
-        {
-            GetComponent<Animation>().Play("walk"); // For Legacy animations
-        }
     }
 
     void Update()
@@ -32,6 +23,7 @@ public class EnemyFollow : MonoBehaviour
         {
             Vector3 direction = (player.position - transform.position).normalized;
             direction.y = 0f; // Keep movement on the horizontal plane
+            animator.SetBool("isWalking", true);
 
             transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
 

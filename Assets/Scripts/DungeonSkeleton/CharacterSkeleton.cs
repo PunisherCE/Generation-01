@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class CharacterSkeleton : MonoBehaviour
 {
@@ -8,9 +9,11 @@ public class CharacterSkeleton : MonoBehaviour
     public float gravity = 9.81f;
     public float rotationSpeed = 15f;
     public SwordDamage sword;
+    public int health = 100;
 
     private float moveSpeed = 8f;
-    private float jumpForce = 11f;
+    private float sprintSpeed = 12f;
+    private float jumpForce = 8f;
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
@@ -20,6 +23,7 @@ public class CharacterSkeleton : MonoBehaviour
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction attackAction;
+    private InputAction sprintAction;
 
     void Start()
     {
@@ -30,6 +34,7 @@ public class CharacterSkeleton : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         jumpAction = playerInput.actions["Jump"];
         attackAction = playerInput.actions["Attack"];
+        sprintAction = playerInput.actions["Sprint"]; // Ensure Sprint is mapped in Input Actions
     }
 
     void Update()
@@ -54,6 +59,8 @@ public class CharacterSkeleton : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
+        float currentSpeed = sprintAction.IsPressed() ? sprintSpeed : moveSpeed;
+
         if (direction.magnitude >= 0.1f)
         {
             animator.SetBool("isWalking", true);
@@ -62,7 +69,7 @@ public class CharacterSkeleton : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDirection.normalized * moveSpeed * Time.deltaTime);
+            controller.Move(moveDirection.normalized * currentSpeed * Time.deltaTime);
         }
         else
         {
@@ -97,8 +104,18 @@ public class CharacterSkeleton : MonoBehaviour
     System.Collections.IEnumerator HandleSwordDamage()
     {
         sword.EnableDamage();
-        yield return new WaitForSeconds(1f); // Wait for 1 second
+        yield return new WaitForSeconds(1.2f); // Wait for 1 second
         sword.DisableDamage();
     }
 
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        Debug.Log("Health: " + health);
+
+        if (health < 1)
+        {
+            SceneManager.LoadScene("Arena");
+        }
+    }
 }
