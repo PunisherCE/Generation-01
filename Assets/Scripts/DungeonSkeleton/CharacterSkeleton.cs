@@ -13,7 +13,7 @@ public class CharacterSkeleton : MonoBehaviour
 
     private float moveSpeed = 8f;
     private float sprintSpeed = 12f;
-    private float jumpForce = 8f;
+    private float jumpForce = 9f;
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
@@ -96,14 +96,21 @@ public class CharacterSkeleton : MonoBehaviour
     {
         if (attackAction.triggered)
         {
-            animator.SetTrigger("Attack1h1");
-            StartCoroutine(HandleSwordDamage());
+            if (!isGrounded)
+            {
+                animator.SetTrigger("Attack1h1");
+                StartCoroutine(HandleSwordDamage(10));
+            } else
+            {
+                animator.SetTrigger("Attack1h1");
+                StartCoroutine(HandleSwordDamage(20));
+            }
         }
     }
 
-    System.Collections.IEnumerator HandleSwordDamage()
+    System.Collections.IEnumerator HandleSwordDamage(int damage)
     {
-        sword.EnableDamage();
+        sword.EnableDamage(damage);
         yield return new WaitForSeconds(1.2f); // Wait for 1 second
         sword.DisableDamage();
     }
