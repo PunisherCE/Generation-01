@@ -39,13 +39,13 @@ public class CharacterSkeleton : MonoBehaviour
 
     void Update()
     {
-        HandleAnimations();
         isGrounded = controller.isGrounded;
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f; // Reset vertical velocity when grounded
         }
 
+        HandleAnimations();
         Move();
         Jump();
         ApplyGravity();
@@ -96,7 +96,7 @@ public class CharacterSkeleton : MonoBehaviour
     {
         if (attackAction.triggered)
         {
-            if (!isGrounded)
+            if (isGrounded)
             {
                 animator.SetTrigger("Attack1h1");
                 StartCoroutine(HandleSwordDamage(10));
