@@ -7,6 +7,8 @@ public class EnemyAttack : MonoBehaviour
     public float attackCooldown = 2f; // Time between attacks
     public int damageAmount = 5; // Reduced damage inflicted
     public Transform player; // Assign the player in the Inspector
+
+    private CharacterSkeleton skeleton;
     private Animator animator;
     private bool isAttacking = false;
     private EnemyFollow enemyFollow;
@@ -16,6 +18,7 @@ public class EnemyAttack : MonoBehaviour
         animator = GetComponent<Animator>();
         enemyFollow = GetComponent<EnemyFollow>(); // Reference to control movement
         player = GameObject.FindGameObjectWithTag("Player").transform; // Ensure player is tagged "Player"
+        skeleton = player.GetComponent<CharacterSkeleton>(); // Correctly reference player's script
     }
 
     void Update()
@@ -25,6 +28,14 @@ public class EnemyAttack : MonoBehaviour
         if (distanceToPlayer <= attackRange && !isAttacking)
         {
             StartCoroutine(PerformAttack());
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (enemyFollow != null)
+        {
+            enemyFollow.enabled = false;
         }
     }
 
@@ -61,7 +72,12 @@ public class EnemyAttack : MonoBehaviour
             {
                 Debug.Log("Player hit by enemy");
                 // Apply damage to player here
-                hitCollider.GetComponent<CharacterSkeleton>()?.TakeDamage(damageAmount);
+                skeleton.TakeDamage(damageAmount);
+
+                if (skeleton.health < 1)
+                {
+                    this.enabled = false;
+                }
             }
         }
     }

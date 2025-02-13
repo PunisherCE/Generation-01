@@ -8,13 +8,34 @@ public class EnemyFollow : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player")?.transform; // Ensure your player is tagged as "Player"
+        FindPlayer(); // Ensure the player is assigned at the start
         animator = GetComponent<Animator>();
     }
 
     void Update()
     {
+        if (player == null)
+        {
+            Debug.Log("There is a player");
+            FindPlayer(); // Reassign the player if null (fixes issue on scene reload)
+        }
+
         FollowPlayer();
+    }
+
+    void FindPlayer()
+    {
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObject != null)
+        {
+            Debug.Log("Player found");
+            player = playerObject.transform;
+        }
+        else
+        {
+            Debug.LogError("Player not found! Make sure the player is tagged as 'Player'.");
+        }
     }
 
     void FollowPlayer()

@@ -1,16 +1,23 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    [SerializeField] AudioSource soundSource;
+    [SerializeField] AudioClip clipHit;
+    [SerializeField] AudioClip clipDie;
+
     public EnemySpawner spawner;
     public CharacterSkeleton player;
-
     public int maxHealth = 50;
+
+    private EnemyAttack attack;
     private int currentHealth;
 
     void Start()
     {
         currentHealth = maxHealth;
+        attack = GetComponent<EnemyAttack>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterSkeleton>();
     }
 
@@ -21,13 +28,16 @@ public class EnemyHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Die();
-        }
+            attack.enabled = false;
+            StartCoroutine(Die());
+        } else soundSource.PlayOneShot(clipHit);
     }
 
-    void Die()
+    private IEnumerator Die()
     {
+        soundSource.PlayOneShot(clipDie);
         Debug.Log("Enemy defeated!");
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject); // Or play a death animation
         spawner.enemiesKilled++;
         if(spawner.enemiesKilled >= spawner.numberOfEnemies)

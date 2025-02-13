@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     private float minYAngle = -30f;
     private float maxYAngle = 60f;
     private float distance = 8f;
-    private float sensitivity = 30f;
+    private float sensitivity = 20f;
     private float yaw = 0f;
     private float pitch = 0f;
     private Vector3 currentOffset;

@@ -1,9 +1,14 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class CharacterSkeleton : MonoBehaviour
 {
+    [SerializeField] AudioSource soundSource;
+    [SerializeField] AudioClip clipHit;
+    [SerializeField] AudioClip clipDie;
+
     public Transform cameraTransform;
     public LayerMask groundLayer;
     public float gravity = 9.81f;
@@ -18,6 +23,7 @@ public class CharacterSkeleton : MonoBehaviour
     private Vector3 velocity;
     private bool isGrounded;
     private Animator animator;
+    private bool gameStatus = true;
 
     private PlayerInput playerInput;
     private InputAction moveAction;
@@ -49,37 +55,43 @@ public class CharacterSkeleton : MonoBehaviour
         Move();
         Jump();
         ApplyGravity();
+
+        if (!gameStatus) animator.SetTrigger("Fall1");
     }
 
     void Move()
     {
-        Vector2 input = moveAction.ReadValue<Vector2>();
-        float horizontal = input.x;
-        float vertical = input.y;
-
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
-
-        float currentSpeed = sprintAction.IsPressed() ? sprintSpeed : moveSpeed;
-
-        if (direction.magnitude >= 0.1f)
+        if (gameStatus)
         {
-            animator.SetBool("isWalking", true);
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
-            float angle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, Time.deltaTime * rotationSpeed);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            Vector2 input = moveAction.ReadValue<Vector2>();
+            float horizontal = input.x;
+            float vertical = input.y;
 
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDirection.normalized * currentSpeed * Time.deltaTime);
+            Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+
+            float currentSpeed = sprintAction.IsPressed() ? sprintSpeed : moveSpeed;
+
+            if (direction.magnitude >= 0.1f)
+            {
+                animator.SetBool("isWalking", true);
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
+                float angle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, Time.deltaTime * rotationSpeed);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                controller.Move(moveDirection.normalized * currentSpeed * Time.deltaTime);
+            }
+            else
+            {
+                animator.SetBool("isWalking", false);
+            }
         }
-        else
-        {
-            animator.SetBool("isWalking", false);
-        }
+
     }
 
     void Jump()
     {
-        if (jumpAction.triggered && isGrounded)
+        if (jumpAction.triggered && isGrounded && gameStatus)
         {
             velocity.y = jumpForce;
             animator.SetTrigger("Up");
@@ -94,7 +106,7 @@ public class CharacterSkeleton : MonoBehaviour
 
     void HandleAnimations()
     {
-        if (attackAction.triggered)
+        if (attackAction.triggered && gameStatus)
         {
             if (isGrounded)
             {
@@ -120,9 +132,22 @@ public class CharacterSkeleton : MonoBehaviour
         health -= damage;
         Debug.Log("Health: " + health);
 
-        if (health < 1)
+        if (health < 1 && gameStatus)
         {
-            SceneManager.LoadScene("Arena");
+            soundSource.PlayOneShot(clipDie);            
+            gameStatus = false;
+
+            StartCoroutine(RestartScene()); // Coroutine replaces wait
         }
+        else
+        {
+            soundSource.PlayOneShot(clipHit);
+        }
+    }
+
+    private IEnumerator RestartScene()
+    {
+        yield return new WaitForSeconds(2f); // Wait 2 seconds
+        SceneManager.LoadScene("Arena");
     }
 }
