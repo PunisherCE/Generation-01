@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &70604051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,7 +238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &215951352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +308,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 258837090192578115, guid: 39b3ac52b0ca1184e9bab50579290391, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 664476498283109512, guid: 39b3ac52b0ca1184e9bab50579290391, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1345531107428003192, guid: 39b3ac52b0ca1184e9bab50579290391, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -351,6 +359,22 @@ PrefabInstance:
     - target: {fileID: 1936626241986096685, guid: 39b3ac52b0ca1184e9bab50579290391, type: 3}
       propertyPath: m_Name
       value: SkeletonPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3282462438654367017, guid: 39b3ac52b0ca1184e9bab50579290391, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964982899065042795, guid: 39b3ac52b0ca1184e9bab50579290391, type: 3}
+      propertyPath: stopAction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964982899065042795, guid: 39b3ac52b0ca1184e9bab50579290391, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964982899320380248, guid: 39b3ac52b0ca1184e9bab50579290391, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

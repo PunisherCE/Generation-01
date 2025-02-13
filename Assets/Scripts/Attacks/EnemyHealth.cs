@@ -7,6 +7,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] AudioClip clipHit;
     [SerializeField] AudioClip clipDie;
 
+    public ParticleSystem particleEffect; // Assign this in Inspector
     public EnemySpawner spawner;
     public CharacterSkeleton player;
     public int maxHealth = 50;
@@ -24,6 +25,8 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
+        particleEffect.Play();
+        StartCoroutine(StopParticlesAfter(1.5f)); //Stops after 1.5s
         Debug.Log("Enemy took damage! Current Health: " + currentHealth);
 
         if (currentHealth <= 0)
@@ -31,6 +34,15 @@ public class EnemyHealth : MonoBehaviour
             attack.enabled = false;
             StartCoroutine(Die());
         } else soundSource.PlayOneShot(clipHit);
+    }
+
+    private IEnumerator StopParticlesAfter(float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (particleEffect != null)
+        {
+            particleEffect.Stop();
+        }
     }
 
     private IEnumerator Die()

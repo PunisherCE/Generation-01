@@ -9,21 +9,22 @@ public class CharacterSkeleton : MonoBehaviour
     [SerializeField] AudioClip clipHit;
     [SerializeField] AudioClip clipDie;
 
+    public ParticleSystem particleEffect; // Assign this in Inspector
     public Transform cameraTransform;
     public LayerMask groundLayer;
+    public int health = 100;
     public float gravity = 9.81f;
     public float rotationSpeed = 15f;
     public SwordDamage sword;
-    public int health = 100;
 
     private float moveSpeed = 8f;
     private float sprintSpeed = 12f;
     private float jumpForce = 9f;
+    private bool isGrounded;
+    private bool gameStatus = true;
     private CharacterController controller;
     private Vector3 velocity;
-    private bool isGrounded;
     private Animator animator;
-    private bool gameStatus = true;
 
     private PlayerInput playerInput;
     private InputAction moveAction;
@@ -130,20 +131,33 @@ public class CharacterSkeleton : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
+        particleEffect.Play();
+        StartCoroutine(StopParticlesAfter(1.5f)); //Stops after 1.5s
+
         Debug.Log("Health: " + health);
 
         if (health < 1 && gameStatus)
         {
-            soundSource.PlayOneShot(clipDie);            
+            soundSource.PlayOneShot(clipDie);
             gameStatus = false;
-
-            StartCoroutine(RestartScene()); // Coroutine replaces wait
+            StartCoroutine(RestartScene());
         }
         else
         {
             soundSource.PlayOneShot(clipHit);
         }
     }
+
+    //Coroutine to stop particles
+    private IEnumerator StopParticlesAfter(float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (particleEffect != null)
+        {
+            particleEffect.Stop();
+        }
+    }
+
 
     private IEnumerator RestartScene()
     {
