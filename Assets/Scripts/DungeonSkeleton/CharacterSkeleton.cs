@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CharacterSkeleton : MonoBehaviour
 {
@@ -11,8 +12,10 @@ public class CharacterSkeleton : MonoBehaviour
 
     public ParticleSystem particleEffect; // Assign this in Inspector
     public Transform cameraTransform;
+    public Image healthBarFill; // Assign in Inspector
     public LayerMask groundLayer;
     public int health = 100;
+    public int maxHealth = 100;
     public float gravity = 9.81f;
     public float rotationSpeed = 15f;
     public SwordDamage sword;
@@ -131,6 +134,7 @@ public class CharacterSkeleton : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
+        UpdateHealthUI();
         particleEffect.Play();
         StartCoroutine(StopParticlesAfter(1.5f)); //Stops after 1.5s
 
@@ -164,4 +168,12 @@ public class CharacterSkeleton : MonoBehaviour
         yield return new WaitForSeconds(2f); // Wait 2 seconds
         SceneManager.LoadScene("Arena");
     }
+    public void UpdateHealthUI()
+    {
+        if (healthBarFill != null)
+        {
+            healthBarFill.fillAmount = (float)health / maxHealth;
+        }
+    }
 }
+

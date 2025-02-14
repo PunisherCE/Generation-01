@@ -47,6 +47,7 @@ public class EnemyHealth : MonoBehaviour
 
     private IEnumerator Die()
     {
+        KillCounterManager.Instance.UpdateKillCount();
         soundSource.PlayOneShot(clipDie);
         Debug.Log("Enemy defeated!");
         yield return new WaitForSeconds(0.5f);
@@ -55,6 +56,7 @@ public class EnemyHealth : MonoBehaviour
         if(spawner.enemiesKilled >= spawner.numberOfEnemies)
         {
             player.health = 100;
+            player.UpdateHealthUI();
             spawner.numberOfEnemies++;
             spawner.enemiesKilled = 0;
             spawner.SpawnEnemies(spawner.numberOfEnemies);

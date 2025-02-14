@@ -208,6 +208,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8443315704496310908, guid: 6ef35fa36e3a65043b2d800600204bdd, type: 3}
+      propertyPath: stopAction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443315704496310908, guid: 6ef35fa36e3a65043b2d800600204bdd, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
@@ -463,10 +467,12 @@ MonoBehaviour:
   clipDie: {fileID: 8300000, guid: 41ab13d6062c16343944939ab62cacee, type: 3}
   particleEffect: {fileID: 7964982899065042795}
   cameraTransform: {fileID: 887290553545495497}
+  healthBarFill: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
   health: 100
+  maxHealth: 100
   gravity: 9.81
   rotationSpeed: 15
   sword: {fileID: 7938657744773560700}

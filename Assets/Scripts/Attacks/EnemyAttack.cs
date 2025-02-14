@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    public float attackRange = 2f; // Distance at which the enemy starts attacking
-    public float attackCooldown = 2f; // Time between attacks
-    public int damageAmount = 5; // Reduced damage inflicted
     public Transform player; // Assign the player in the Inspector
+    public float attackRange = 2f; // Distance at which the enemy starts attacking
+    public int damageAmount = 5; // Reduced damage inflicted
 
     private CharacterSkeleton skeleton;
     private Animator animator;
-    private bool isAttacking = false;
     private EnemyFollow enemyFollow;
+    private float attackCooldown = 1f; // Time between attacks
+    private bool isAttacking = false;
 
     void Start()
     {
@@ -43,6 +43,7 @@ public class EnemyAttack : MonoBehaviour
     {
         isAttacking = true;
         animator.SetTrigger("attack");
+        animator.SetBool("isWalking", false);
 
         if (enemyFollow != null)
         {
@@ -61,6 +62,7 @@ public class EnemyAttack : MonoBehaviour
         }
 
         isAttacking = false;
+        animator.SetBool("isWalking", true);
     }
 
     void DealDamage()
