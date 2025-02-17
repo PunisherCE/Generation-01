@@ -172,8 +172,13 @@ public class CharacterSkeleton : MonoBehaviour
     {
         if (healthBarFill != null)
         {
-            healthBarFill.fillAmount = (float)health / maxHealth;
+            float healthPercentage = (float)health / maxHealth;
+            healthBarFill.fillAmount = healthPercentage;
+
+            // Transition from green (healthy) to red (low health)
+            healthBarFill.color = Color.Lerp(Color.red, Color.green, healthPercentage);
         }
     }
+
 }
 

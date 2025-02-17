@@ -67,7 +67,7 @@ public class EnemyAttack : MonoBehaviour
 
     void DealDamage()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * 1f, 1.5f);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * 1f + (transform.up * 1.25f), 1.3f);
         foreach (Collider hitCollider in hitColliders)
         {
             if (hitCollider.CompareTag("Player"))
@@ -87,6 +87,6 @@ public class EnemyAttack : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + transform.forward * 1f, 1.5f);
+        Gizmos.DrawWireSphere(transform.position + transform.forward * 1f + (transform.up * 1.25f), 1.3f);
     }
 }

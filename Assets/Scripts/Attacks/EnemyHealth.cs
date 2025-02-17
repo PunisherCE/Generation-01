@@ -14,6 +14,7 @@ public class EnemyHealth : MonoBehaviour
 
     private EnemyAttack attack;
     private int currentHealth;
+    private bool dead= false;
 
     void Start()
     {
@@ -32,7 +33,11 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             attack.enabled = false;
+            if (!dead)
+            {
+            dead = true;
             StartCoroutine(Die());
+            }
         } else soundSource.PlayOneShot(clipHit);
     }
 
@@ -55,7 +60,7 @@ public class EnemyHealth : MonoBehaviour
         spawner.enemiesKilled++;
         if(spawner.enemiesKilled >= spawner.numberOfEnemies)
         {
-            player.health = 100;
+            player.health = player.maxHealth;
             player.UpdateHealthUI();
             spawner.numberOfEnemies++;
             spawner.enemiesKilled = 0;

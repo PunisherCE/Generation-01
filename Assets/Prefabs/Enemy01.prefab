@@ -190,10 +190,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2fd6f98ee5e47748b61c8d837d66ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 2
-  attackCooldown: 2
-  damageAmount: 5
   player: {fileID: 0}
+  attackRange: 2
+  damageAmount: 5
 --- !u!82 &1692335500145420272
 AudioSource:
   m_ObjectHideFlags: 0
