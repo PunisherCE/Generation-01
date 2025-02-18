@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    static public short difficulty = 0;
+
     [SerializeField] AudioSource soundSource;
     [SerializeField] AudioClip clipHit;
     [SerializeField] AudioClip clipDie;
@@ -10,7 +12,6 @@ public class EnemyHealth : MonoBehaviour
     public ParticleSystem particleEffect; // Assign this in Inspector
     public EnemySpawner spawner;
     public CharacterSkeleton player;
-    public int maxHealth = 50;
 
     private EnemyAttack attack;
     private int currentHealth;
@@ -18,9 +19,17 @@ public class EnemyHealth : MonoBehaviour
 
     void Start()
     {
-        currentHealth = maxHealth;
         attack = GetComponent<EnemyAttack>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterSkeleton>();
+
+        if (difficulty == 1)
+        {
+            currentHealth = 100;
+        }
+        else if (difficulty == 2) 
+        {
+            currentHealth = 200;
+        } else currentHealth = 50;
     }
 
     public void TakeDamage(int amount)
@@ -60,11 +69,7 @@ public class EnemyHealth : MonoBehaviour
         spawner.enemiesKilled++;
         if(spawner.enemiesKilled >= spawner.numberOfEnemies)
         {
-            player.health = player.maxHealth;
-            player.UpdateHealthUI();
-            spawner.numberOfEnemies++;
-            spawner.enemiesKilled = 0;
-            spawner.SpawnEnemies(spawner.numberOfEnemies);
+            RoundManager.Instance.NextRound();
         }
     }
 }

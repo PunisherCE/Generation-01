@@ -14,6 +14,7 @@ public class CharacterSkeleton : MonoBehaviour
     public Transform cameraTransform;
     public Image healthBarFill; // Assign in Inspector
     public LayerMask groundLayer;
+    public int damage = 10;
     public int health = 100;
     public int maxHealth = 100;
     public float gravity = 9.81f;
@@ -115,11 +116,11 @@ public class CharacterSkeleton : MonoBehaviour
             if (isGrounded)
             {
                 animator.SetTrigger("Attack1h1");
-                StartCoroutine(HandleSwordDamage(10));
+                StartCoroutine(HandleSwordDamage(damage));
             } else
             {
                 animator.SetTrigger("Attack1h1");
-                StartCoroutine(HandleSwordDamage(20));
+                StartCoroutine(HandleSwordDamage(damage * 2));
             }
         }
     }
@@ -166,7 +167,7 @@ public class CharacterSkeleton : MonoBehaviour
     private IEnumerator RestartScene()
     {
         yield return new WaitForSeconds(2f); // Wait 2 seconds
-        SceneManager.LoadScene("Arena");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void UpdateHealthUI()
     {

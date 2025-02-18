@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
+    static public short difficulty = 0;
+
     public Transform player; // Assign the player in the Inspector
     public float attackRange = 2f; // Distance at which the enemy starts attacking
     public int damageAmount = 5; // Reduced damage inflicted
@@ -19,6 +21,16 @@ public class EnemyAttack : MonoBehaviour
         enemyFollow = GetComponent<EnemyFollow>(); // Reference to control movement
         player = GameObject.FindGameObjectWithTag("Player").transform; // Ensure player is tagged "Player"
         skeleton = player.GetComponent<CharacterSkeleton>(); // Correctly reference player's script
+
+        if (difficulty == 1)
+        {
+            damageAmount = 10;
+        }
+        else if (difficulty == 2)
+        {
+            damageAmount = 20;
+        }
+        else damageAmount = 5;
     }
 
     void Update()

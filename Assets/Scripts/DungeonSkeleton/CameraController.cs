@@ -17,7 +17,6 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         currentOffset = new Vector3(0f, 2f, -distance); // Adjusted to provide better starting height
     }
 

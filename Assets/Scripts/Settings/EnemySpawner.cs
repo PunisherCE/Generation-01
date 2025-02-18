@@ -7,10 +7,6 @@ public class EnemySpawner : MonoBehaviour
     public int numberOfEnemies = 2; // Number of enemies to spawn
     public int enemiesKilled = 0;
 
-    void Start()
-    {
-        SpawnEnemies(numberOfEnemies);
-    }
 
     public void SpawnEnemies(int enemyCount)
     {
