@@ -169,6 +169,7 @@ public class CharacterSkeleton : MonoBehaviour
 
     private IEnumerator RestartScene()
     {
+        RoundManager.gold = 5;
         yield return new WaitForSeconds(2f); // Wait 2 seconds
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

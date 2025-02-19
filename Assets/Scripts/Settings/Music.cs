@@ -9,7 +9,7 @@ public class Music : MonoBehaviour
     {
         AudioClip clip = Resources.Load($"Music/Sueno_de_Amor") as AudioClip;
         soundSource.clip = clip;
-        soundSource.Play();
+        if(PlayerPrefs.GetInt("MusicMute", 0) == 1) soundSource.Play();
     }
 
     // Update is called once per frame
