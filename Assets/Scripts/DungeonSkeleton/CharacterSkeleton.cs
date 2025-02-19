@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class CharacterSkeleton : MonoBehaviour
@@ -143,6 +144,8 @@ public class CharacterSkeleton : MonoBehaviour
 
         if (health < 1 && gameStatus)
         {
+            int score = KillCounterManager.Instance.enemiesKilled * (EnemyAttack.difficulty + 1);
+            HighScoreManager.SaveHighScore(score);
             soundSource.PlayOneShot(clipDie);
             gameStatus = false;
             StartCoroutine(RestartScene());
