@@ -13,7 +13,6 @@ public class KillCounterManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Keeps it alive between scene reloads
         }
         else
         {
